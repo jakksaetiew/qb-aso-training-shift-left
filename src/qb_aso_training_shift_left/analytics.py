@@ -8,13 +8,7 @@ def transform_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         return x.lower() if isinstance(x, str) else x
 
     # Convert all string columns to lowercase
-    df = df.applymap(lowercase_str)
-
     # Drop all rows that have NaN values
-    df = df.dropna()
-
     # Reset the index of the DataFrame
-    df = df.reset_index(drop=True)
 
-    # Return the transformed DataFrame
-    return df
+    return df.applymap(lowercase_str).dropna().reset_index(drop=True)
