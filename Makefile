@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help # when you run make, it defaults to printing available commands
 
-.PHONY: conda-create-env
-conda-create-env:
+.PHONY: create-conda-env
+create-conda-env:
 	conda env create -f environment.yaml
 
 .PHONY: install
@@ -15,7 +15,7 @@ develop:
 
 .PHONY: lint
 lint:
-	pre-commit run -a --hook-stage manual
+	pre-commit run --all-files --hook-stage manual
 
 .PHONY: test
 test:
