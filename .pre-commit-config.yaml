@@ -1,0 +1,80 @@
+# To install the git pre-commit hook run:
+#   pre-commit install
+# To update the pre-commit hooks run:
+#   pre-commit install-hooks
+
+default_stages: [commit, manual]
+
+exclude: '^(\.tox|\.circleci|\.bumpversion\.cfg|.templates)(/|$)'
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace # Replace or check mixed line ending.
+      - id: end-of-file-fixer # Ensure that a file is either empty, or ends with one newline.
+      - id: check-yaml # Attempts to load all yaml files to verify syntax.
+      - id: check-added-large-files # Prevent giant files from being committed.
+      - id: mixed-line-ending # Replace or checks mixed line ending.
+      - id: check-case-conflict # Check for files that would conflict in case-insensitive filesystems
+      - id: check-merge-conflict # Check for files that contain merge conflict strings.
+      - id: debug-statements # Check for debugger imports and py37+ `breakpoint()` calls in python source.
+      - id: requirements-txt-fixer # Sort entries in requirements.txt
+      - id: name-tests-test # Verifies that test files are named correctly.
+        args: ["--pytest-test-first"]
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black # Format code with black
+        name: format code with black
+        files: ^src|^tests
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort # Sort imports with isort
+        name: sort imports with isort
+        args: ["--profile", "black"]
+        files: ^src|^tests
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8 # Lint with flake8
+        name: lint with flake8
+        pass_filenames: false
+        additional_dependencies:
+          - Flake8-pyproject
+        files: ^src|^tests
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.2.0
+    hooks:
+      - id: mypy
+        name: typing and annotations check with mypy
+        additional_dependencies:
+          - pandas-stubs
+        args: ["--config-file", "./pyproject.toml"]
+        files: ^src
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        name: security linting with bandit
+        files: ^src
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout # Ensure that committed Jupyter notebooks contain no outputs
+        name: Ensure notebooks have no outputs
+
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.0
+    hooks:
+      - id: nbqa-black # Run 'black' on Jupyter Notebooks
+      - id: nbqa-isort # Run 'isort' on Jupyter Notebooks
+        args: ["--float-to-top"]
+      - id: nbqa-flake8 # Run 'flake8' on Jupyter Notebooks

@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qb-aso-training-shift-left"
+version = "0.0.1"
+description = ""
+readme = "README.md"
+requires-python = ">=3.10, <3.11"
+license = { file = "LICENSE" }
+authors = [
+    { email = "jakkarin_sae_tiew@mckinsey.com" },
+    { name = "Jakkarin Sae-Tiew" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = ["pandas>=2.0", "pandas-stubs>=2.0"]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.12.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "Flake8-pyproject>=1.2.3",
+    "mypy>=1.2.0",
+    "bandit>=1.7.5",
+    "pre-commit>=3.2.2",
+    "pip-tools>=6.13.0",
+]
+test = ["pytest>=7.3", "pytest-cov>=4.0", "coverage>=6.5", "sure>=2.0"]
+docs = ["jupyter-book>=0.15.1", "notebook", "jupytext"]
+
+[project.scripts]
+greet = "qb_aso_training_shift_left:main.be_polite"
+
+
+[tool.isort]
+profile = "black"
+line_length = 88
+default_section = "THIRDPARTY"
+skip = [".eggs", "build", "dist", "docs", "_build"]
+
+[tool.flake8]
+inline-quotes = "double"
+max-line-length = 88
+exclude = [".eggs", "build", "dist", "docs", "_build"]
+
+[tool.bandit]
+exclude_dirs = ["./tests/"]
+
+[tool.mypy]
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["./tests"]
+addopts = """
+--cov-report term-missing \
+--cov src/qb_aso_training_shift_left -ra"""
+
+[tool.coverage]
+[tool.coverage.run]
+omit = ['*/.local/*', '*/__init__.py', 'tests/*', '*/tests/*', '.venv/*']
+
+[tool.coverage.report]
+fail_under = 0
+skip_empty = true
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
