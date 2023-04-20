@@ -77,7 +77,7 @@ addopts = """
 omit = ['*/.local/*', '*/__init__.py', 'tests/*', '*/tests/*', '.venv/*']
 
 [tool.coverage.report]
-fail_under = 0
+fail_under = 80
 skip_empty = true
 show_missing = true
 exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
